@@ -1,0 +1,10 @@
+Class Coffee
+	def initalize 
+		@file =file.path(PAthname.new("/tmp/coffee.txt"))
+	end
+
+	def drink
+		file.new(@file, 'a+')
+		f.print(1)
+	mend
+end

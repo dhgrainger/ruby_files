@@ -1,0 +1,3 @@
+CSV.foreach('analysis.csv', headers: true) do |row|
+	puts rows.keys
+end

@@ -1,0 +1,8 @@
+def solution(keys, default_value)
+  x = {}
+  keys.each do |key|
+    x[key] = default_value
+  end
+end
+
+puts x
