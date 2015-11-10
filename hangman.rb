@@ -114,10 +114,11 @@ class Hangman
 
 		@word = @library.sample.split('')
 		@guesses =[]
+		@man =[]
 	end
 
 	def chances
-		@word.length - @guesses.length + (@guesses & @word).length
+		@word.length - @guesses.uniq.length + (@guesses & @word).length
 	end
 
 	def display_word
@@ -128,32 +129,41 @@ class Hangman
 			  print '-'
 			end
 		end
-		puts "\n Guess a letter(a-z). Or if your feeling lucky you can guess the word.\nChances left: #{chances}\nMissed Letters: #{@guesses - @word}."
+		puts "\n Guess a letter(a-z). Or if your feeling lucky you can guess the word.\nChances left: #{chances}\nMissed Letters: #{@guesses.uniq - @word}."
 	end
 
 	def prompt_guess
+		hang_man
 		display_word
 		@guesses << gets.chomp
-		if !(@word & @guesses).empty?
-			winner?
-		else
-			loser?
-		end
-	end
-
-	def winner?
 		if (@word & @guesses) == @word.uniq
-			puts " #{@word.join('')} YOU WIN!!!!!"
+			puts " #{@word.join('')} YOU WIN!!! (Triumphant Horns)"
+		elsif chances <= 0
+			puts " #{@word.join('')} You Lose (Sad Trombone)"
 		else
 			prompt_guess
 		end
 	end
 
-	def loser?
-		if chances > 0
-			prompt_guess
-		else
-			puts " #{@word.join('')} you lose WOMMMP WOMMMPPP WOMMMMPPPP WOMMMMMPPPPMPMPMPMP (Sad Trombone)"
+	def hang_man
+		hang_level = @word.length - chances
+		case hang_level
+		when  1
+			@man[0] = [" ","0"," "]
+		when 2
+			@man[1] = [" ","|"," "]
+		when 3
+			@man[1] = [" ","|","\\"]
+		when 4
+			@man[1] = ["/","|","\\"]
+		when 5
+			@man[2] = ["/",""," "]
+		when 6
+			@man[2] =["/"," ","\\"]
+		end
+
+		@man.each do |part|
+			puts part.join("")
 		end
 	end
 end
@@ -161,3 +171,5 @@ end
 hangman = Hangman.new
 
 hangman.prompt_guess
+
+puts "==========THANKS FOR PLAYING=========="
